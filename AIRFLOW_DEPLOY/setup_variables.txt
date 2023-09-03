@@ -1,0 +1,8 @@
+{
+    "path_file":"/usr/local/airflow/premier_positions.csv",
+    "stage":"st_leagues",
+    "table":"football_leagues",
+    "DWH":"dwhgt",
+    "DB":"leagues",
+    "ROLE":"accountadmin"
+}

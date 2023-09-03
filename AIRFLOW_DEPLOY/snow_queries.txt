@@ -1,0 +1,157 @@
+CREATE WAREHOUSE dwhgt
+    WAREHOUSE_SIZE = 'MEDIUM'
+    WAREHOUSE_TYPE = 'STANDARD'
+    AUTO_SUSPEND = 60
+    AUTO_RESUME = TRUE;
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+CREATE STAGE "LEAGUES"."PUBLIC".st_leagues;
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+USE DATABASE LEAGUES;
+
+CREATE OR REPLACE TABLE football_leagues (
+id         VARCHAR (30) NOT NULL,
+equipo     VARCHAR (30) NOT NULL,
+Jugados    INTEGER NOT NULL,
+ganados    INTEGER NOT NULL,
+empatados  INTEGER NOT NULL,
+perdidos   INTEGER NOT NULL,
+gf         INTEGER NOT NULL,
+gc         INTEGER NOT NULL,
+diff       INTEGER NOT NULL,
+puntos     INTEGER NOT NULL,
+liga       VARCHAR (30) NOT NULL,
+created_at VARCHAR (30) NOT NULL
+);
+
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+
+list @st_leagues;
+
+Truncate table "LEAGUES"."PUBLIC"."FOOTBALL_LEAGUES";
+
+select *
+from "LEAGUES"."PUBLIC"."FOOTBALL_LEAGUES";
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+INSERT INTO football_leagues (
+    id, equipo, Jugados, ganados, empatados, perdidos,
+    gf, gc, diff, puntos, liga, created_at
+)
+SELECT
+    LEFT(MD5(TO_VARCHAR(RANDOM())), 10) as id,
+    'Equipo ' || LEFT(MD5(TO_VARCHAR(RANDOM())), 10) as equipo,
+    FLOOR(RANDOM() * 100) as Jugados,
+    FLOOR(RANDOM() * 100) as ganados,
+    FLOOR(RANDOM() * 100) as empatados,
+    FLOOR(RANDOM() * 100) as perdidos,
+    FLOOR(RANDOM() * 100) as gf,
+    FLOOR(RANDOM() * 100) as gc,
+    FLOOR(RANDOM() * 100) as diff,
+    FLOOR(RANDOM() * 100) as puntos,
+    'Liga ' || LEFT(MD5(TO_VARCHAR(RANDOM())), 10) as liga,
+    TO_VARCHAR(CURRENT_TIMESTAMP, 'YYYY-MM-DD HH24:MI:SS') as created_at
+FROM TABLE(GENERATOR(ROWCOUNT => 10));
+-------------------------------------------------------------------------------
+-------------------------------------------------------------------------------
+INSERT INTO "LEAGUES"."PUBLIC"."FOOTBALL_LEAGUES" (
+    id, equipo, Jugados, ganados, empatados, perdidos,
+    gf, gc, diff, puntos, liga, created_at
+)
+VALUES
+    ('ffd4cd06','Real Madrid',4,4,0,0,8,2,6,12,'ESPAÑA','2023-09-03'),
+    ('ffd4cd0c','Atlético Madrid',3,2,1,0,10,1,9,7,'ESPAÑA','2023-09-03'),
+    ('ffd4cd07','Barcelona',3,2,1,0,6,3,3,7,'ESPAÑA','2023-09-03'),
+    ('ffd4cd09','Athletic Club',4,2,1,1,6,4,2,7,'ESPAÑA','2023-09-03'),
+    ('ffd4f416','Cádiz',4,2,1,1,5,4,1,7,'ESPAÑA','2023-09-03'),
+    ('ffd4cd08','Real Betis',4,2,1,1,5,5,0,7,'ESPAÑA','2023-09-03'),
+    ('ffd4cd0d','Real Sociedad',4,1,3,0,7,5,2,6,'ESPAÑA','2023-09-03'),
+    ('ffd4cd0a','Osasuna',3,2,0,1,4,3,1,6,'ESPAÑA','2023-09-03'),
+    ('ffd4cd0e','Valencia',4,2,0,2,4,4,0,6,'ESPAÑA','2023-09-03'),
+    ('ffd4f40f','Rayo Vallecano',4,2,0,2,4,8,-4,6,'ESPAÑA','2023-09-03'),
+    ('ffd4f410','Celta Vigo',4,1,1,2,4,6,-2,4,'ESPAÑA','2023-09-03'),
+    ('ffd4f411','Getafe',4,1,1,2,2,5,-3,4,'ESPAÑA','2023-09-03'),
+    ('ffd4cd0b','Villarreal',4,1,0,3,6,9,-3,3,'ESPAÑA','2023-09-03'),
+    ('ffd4f40d','Mallorca',4,0,2,2,3,5,-2,2,'ESPAÑA','2023-09-03'),
+    ('ffd4f413','Almería',4,0,1,3,4,9,-5,1,'ESPAÑA','2023-09-03'),
+    ('ffd4f412','Sevilla FC',3,0,0,3,5,8,-3,0,'ESPAÑA','2023-09-03'),
+    ('ffd4f419','Manchester City',4,4,0,0,11,2,9,12,'INGLATERRA','2023-09-03'),
+    ('ffd4f41a','Tottenham Hotspur',4,3,1,0,11,4,7,10,'INGLATERRA','2023-09-03'),
+    ('ffd4f41f','Liverpool',4,3,1,0,9,3,6,10,'INGLATERRA','2023-09-03'),
+    ('ffd4f429','West Ham United',4,3,1,0,9,4,5,10,'INGLATERRA','2023-09-03'),
+    ('ffd4f41b','Brighton & Hove Albion',4,3,0,1,12,6,6,9,'INGLATERRA','2023-09-03'),
+    ('ffd4f418','Arsenal',3,2,1,0,5,3,2,7,'INGLATERRA','2023-09-03'),
+    ('ffd4f427','Crystal Palace',4,2,1,1,5,4,1,7,'INGLATERRA','2023-09-03'),
+    ('ffd4f420','Brentford',4,1,3,0,8,5,3,6,'INGLATERRA','2023-09-03'),
+    ('ffd4f42a','Nottingham Forest',4,2,0,2,6,6,0,6,'INGLATERRA','2023-09-03'),
+    ('ffd4f41c','Manchester United',3,2,0,1,4,4,0,6,'INGLATERRA','2023-09-03'),
+    ('ffd4f426','Aston Villa',4,2,0,2,8,9,-1,6,'INGLATERRA','2023-09-03'),
+    ('ffd4f41e','Chelsea',4,1,1,2,5,5,0,4,'INGLATERRA','2023-09-03'),
+    ('ffd4f41d','Fulham',4,1,1,2,4,10,-6,4,'INGLATERRA','2023-09-03'),
+    ('ffd4f421','Newcastle United',4,1,0,3,7,7,0,3,'INGLATERRA','2023-09-03'),
+    ('ffd4f428','Wolverhampton Wanderers',4,1,0,3,4,8,-4,3,'INGLATERRA','2023-09-03'),
+    ('ffd4f423','AFC Bournemouth',4,0,2,2,4,8,-4,2,'INGLATERRA','2023-09-03'),
+    ('ffd4f424','Everton',4,0,1,3,2,8,-6,1,'INGLATERRA','2023-09-03'),
+    ('ffd4f430','AC Milan',3,3,0,0,8,2,6,9,'ITALIA','2023-09-03'),
+    ('ffd4f432','Internazionale',2,2,0,0,4,0,4,6,'ITALIA','2023-09-03'),
+    ('ffd4f42d','Atalanta',3,2,0,1,6,2,4,6,'ITALIA','2023-09-03'),
+    ('ffd4f42c','Napoli',3,2,0,1,6,3,3,6,'ITALIA','2023-09-03'),
+    ('ffd4f43c','Hellas Verona',3,2,0,1,4,4,0,6,'ITALIA','2023-09-03'),
+    ('ffd4f435','Fiorentina',2,1,1,0,6,3,3,4,'ITALIA','2023-09-03'),
+    ('ffd4f433','Juventus',2,1,1,0,4,1,3,4,'ITALIA','2023-09-03'),
+    ('ffd4f43a','Lecce',2,1,1,0,4,3,1,4,'ITALIA','2023-09-03'),
+    ('ffd4f43b','Bolonia',3,1,1,1,3,4,-1,4,'ITALIA','2023-09-03'),
+    ('ffd4f42f','Lazio',3,1,0,2,3,4,-1,3,'ITALIA','2023-09-03'),
+    ('ffd4f436','Sassuolo',3,1,0,2,3,5,-2,3,'ITALIA','2023-09-03'),
+    ('ffd4f43d','Monza',3,1,0,2,2,5,-3,3,'ITALIA','2023-09-03'),
+    ('ffd4f438','Salernitana',2,0,2,0,3,3,0,2,'ITALIA','2023-09-03'),
+    ('ffd4f42e','Udinese',3,0,2,1,1,4,-3,2,'ITALIA','2023-09-03'),
+    ('ffd4f434','Torino',2,0,1,1,1,4,-3,1,'ITALIA','2023-09-03'),
+    ('ffd4f431','AS Roma',3,0,1,2,4,6,-2,1,'ITALIA','2023-09-03'),
+    ('ffd4f439','Empoli',2,0,0,2,0,3,-3,0,'ITALIA','2023-09-03'),
+    ('ffd4f444','AS Mónaco',4,3,1,0,13,5,8,10,'FRANCIA','2023-09-03'),
+    ('ffd4f441','Marseille',4,2,2,0,7,4,3,8,'FRANCIA','2023-09-03'),
+    ('ffd4f450','Stade de Reims',4,2,1,1,8,5,3,7,'FRANCIA','2023-09-03'),
+    ('ffd4f452','Brest',4,2,1,1,5,5,0,7,'FRANCIA','2023-09-03'),
+    ('ffd4f446','Lille',4,2,1,1,5,5,0,7,'FRANCIA','2023-09-03'),
+    ('ffd4f447','Stade Rennais',4,1,3,0,8,4,4,6,'FRANCIA','2023-09-03'),
+    ('ffd4f440','Paris Saint-Germain',3,1,2,0,4,2,2,5,'FRANCIA','2023-09-03'),
+    ('ffd4f442','Lorient',4,1,2,1,5,5,0,5,'FRANCIA','2023-09-03'),
+    ('ffd4f448','Montpellier',4,1,1,2,7,7,0,4,'FRANCIA','2023-09-03'),
+    ('ffd4f44c','Nice',3,0,3,0,2,2,0,3,'FRANCIA','2023-09-03'),
+    ('ffd4f44e','Nantes',4,0,2,2,5,8,-3,2,'FRANCIA','2023-09-03'),
+    ('ffd4f445','Lyon',3,0,1,2,2,6,-4,1,'FRANCIA','2023-09-03'),
+    ('ffd4f44a','Clermont Foot',4,0,1,3,4,9,-5,1,'FRANCIA','2023-09-03'),
+    ('ffd4f443','Lens',4,0,1,3,4,10,-6,1,'FRANCIA','2023-09-03'),
+    ('ffd4f454','Benfica',4,3,0,1,11,5,6,9,'PORTUGAL','2023-09-03'),
+    ('ffd4f456','FC Porto',3,3,0,0,6,3,3,9,'PORTUGAL','2023-09-03'),
+    ('ffd4f45b','Sporting CP',3,3,0,0,6,3,3,9,'PORTUGAL','2023-09-03'),
+    ('ffd4f45c','Guimaraes',4,3,0,1,5,5,0,9,'PORTUGAL','2023-09-03'),
+    ('ffd4f458','Boavista',3,2,1,0,8,4,4,7,'PORTUGAL','2023-09-03'),
+    ('ffd4f463','FC Famalicao',4,2,1,1,3,2,1,7,'PORTUGAL','2023-09-03'),
+    ('ffd4f459','Casa Pia',4,1,2,1,6,4,2,5,'PORTUGAL','2023-09-03'),
+    ('ffd4f45f','Arouca',3,1,2,0,7,6,1,5,'PORTUGAL','2023-09-03'),
+    ('ffd4f460','Rio Ave',4,1,1,2,4,5,-1,4,'PORTUGAL','2023-09-03'),
+    ('ffd4f462','Vizela',4,1,1,2,5,7,-2,4,'PORTUGAL','2023-09-03'),
+    ('ffd4f45d','Gil Vicente',4,1,0,3,8,6,2,3,'PORTUGAL','2023-09-03'),
+    ('ffd4f455','Braga',2,1,0,1,5,4,1,3,'PORTUGAL','2023-09-03'),
+    ('ffd4f45a','Estoril',3,1,0,2,6,6,0,3,'PORTUGAL','2023-09-03'),
+    ('ffd4f457','Portimonense',4,0,2,2,3,11,-8,2,'PORTUGAL','2023-09-03'),
+    ('ffd4f45e','Chaves',3,0,0,3,2,11,-9,0,'PORTUGAL','2023-09-03'),
+    ('ffd4f468','Alkmaar',3,3,0,0,10,2,8,9,'HOLANDA','2023-09-03'),
+    ('ffd4f466','PSV Eindhoven',3,3,0,0,9,1,8,9,'HOLANDA','2023-09-03'),
+    ('ffd4f46a','FC Twente',3,3,0,0,9,2,7,9,'HOLANDA','2023-09-03'),
+    ('ffd4f469','Feyenoord Rotterdam',4,2,2,0,13,4,9,8,'HOLANDA','2023-09-03'),
+    ('ffd4f46c','Sparta Rotterdam',4,2,2,0,8,5,3,8,'HOLANDA','2023-09-03'),
+    ('ffd4f472','Go Ahead Eagles',3,2,0,1,8,8,0,6,'HOLANDA','2023-09-03'),
+    ('ffd4f46b','Heerenveen',4,2,0,2,8,7,1,6,'HOLANDA','2023-09-03'),
+    ('ffd4f475','Fortuna Sittard',4,1,3,0,4,3,1,6,'HOLANDA','2023-09-03'),
+    ('ffd4f467','Ajax Amsterdam',3,1,2,0,6,3,3,5,'HOLANDA','2023-09-03'),
+    ('ffd4f46f','Excelsior',4,1,2,1,9,10,-1,5,'HOLANDA','2023-09-03'),
+    ('ffd4f470','NEC Nijmegen',4,1,1,2,8,7,1,4,'HOLANDA','2023-09-03'),
+    ('ffd4f473','Vitesse',3,1,0,2,3,6,-3,3,'HOLANDA','2023-09-03'),
+    ('ffd4f474','FC Volendam',3,0,0,3,2,8,-6,0,'HOLANDA','2023-09-03'),
+    ('ffd4f46e','FC Utrecht',4,0,0,4,1,10,-9,0,'HOLANDA','2023-09-03'),
+    ('ffd4f46d','RKC Waalwijk',4,0,0,4,2,13,-11,0,'HOLANDA','2023-09-03');
