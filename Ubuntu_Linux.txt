@@ -1,0 +1,50 @@
+# instalacion de properties-common
+sudo apt-get install software-properties-common 
+
+# add-repository universe
+sudo apt-add-repository universe 
+
+# add-repository universe
+sudo apt-get update 
+
+# revision version python
+python3 --version
+
+# instalacion pip
+sudo apt-get install python3-pip 
+
+# exportar variable
+export SLUGIFY_USES_TEXT_UNIDECODE=yes 
+
+# instalacion sql alquemy compatible con airflow 2.20
+sudo pip install SQLAlchemy==1.3.24
+
+# instalacion airflow 
+sudo pip install apache-airflow 
+
+# revision version airflow
+airflow version
+
+# inicializacion de la base de datos
+airflow db init
+
+# creacion del usuario para login
+airflow users  create --role Admin --username jorgecardona --email jorgecardona@email.com --firstname jorge --lastname cardona --password jorgecardona
+
+# iniciar el servicio de airflow
+airflow webserver -p 7890
+
+# iniciar el agendador de tareas
+airflow scheduler
+
+# iniciar sesion en la interface de airflow
+http://localhost:7890
+
+# imprime la lista de DAGs activos
+airflow dags list
+
+# imprime la lista de tareas del DAG  "tutorial" 
+airflow tasks list tutorial
+
+# prints the hierarchy of tasks in the "tutorial" DAG
+airflow tasks list tutorial --tree
